@@ -1,0 +1,18 @@
+services:
+  postgres:
+    container_name: postgres-practice
+    image: postgres:16.3-alpine3.20
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_DB: pg-practice-db
+    volumes:
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    restart: unless-stopped
+
+volumes:
+  postgres:

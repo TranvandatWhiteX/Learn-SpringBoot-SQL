@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: spring-practice
+  datasource:
+    url: jdbc:postgresql://localhost:5432/pg-practice-db
+    username: root
+    password: root
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
