@@ -2,13 +2,11 @@ package com.dattran.practice.domain.repositories;
 
 import com.dattran.practice.domain.entities.User;
 import com.fasterxml.jackson.databind.JsonNode;
-import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Map;
 
