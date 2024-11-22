@@ -1,12 +1,12 @@
 CREATE TABLE permissions
 (
-    id BIGSERIAL PRIMARY KEY,
-    description   VARCHAR(255) NOT NULL
+    id          BIGSERIAL PRIMARY KEY,
+    description VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE roles
 (
-    id   BIGSERIAL PRIMARY KEY,
+    id        BIGSERIAL PRIMARY KEY,
     role_name VARCHAR(255) NOT NULL
 );
 
@@ -39,41 +39,48 @@ CREATE TABLE user_roles
     CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
+CREATE TABLE action_logs
+(
+    id          SERIAL PRIMARY KEY,
+    table_name  VARCHAR(50) NOT NULL,
+    action      VARCHAR(50) NOT NULL,
+    old_data    JSONB,
+    new_data    JSONB,
+    action_time TIMESTAMP DEFAULT NOW()
+);
+
 INSERT INTO roles (role_name)
-VALUES
-    ('ADMIN'),
-    ('MANAGER'),
-    ('EDITOR'),
-    ('VIEWER'),
-    ('GUEST');
+VALUES ('ADMIN'),
+       ('MANAGER'),
+       ('EDITOR'),
+       ('VIEWER'),
+       ('GUEST');
 
 INSERT INTO permissions (description)
-VALUES
-    ('VIEW_DASHBOARD'),
-    ('EDIT_PROFILE'),
-    ('MANAGE_USERS'),
-    ('MANAGE_ROLES'),
-    ('VIEW_REPORTS'),
-    ('EXPORT_DATA'),
-    ('DELETE_RECORDS');
+VALUES ('VIEW_DASHBOARD'),
+       ('EDIT_PROFILE'),
+       ('MANAGE_USERS'),
+       ('MANAGE_ROLES'),
+       ('VIEW_REPORTS'),
+       ('EXPORT_DATA'),
+       ('DELETE_RECORDS');
 
 INSERT INTO role_permissions (role_id, permission_id)
-VALUES
-    (1,1),
-    (1,2),
-    (1,3),
-    (1,4),
-    (1,5),
-    (1,6),
-    (1,7),
-    (2,1),
-    (2,5),
-    (2,6),
-    (2,7),
-    (3,7),
-    (4, 1),
-    (4,6),
-    (5,1);
+VALUES (1, 1),
+       (1, 2),
+       (1, 3),
+       (1, 4),
+       (1, 5),
+       (1, 6),
+       (1, 7),
+       (2, 1),
+       (2, 5),
+       (2, 6),
+       (2, 7),
+       (3, 7),
+       (4, 1),
+       (4, 6),
+       (5, 1);
 
 
 

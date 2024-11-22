@@ -21,9 +21,9 @@ public class SQLRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Run only once
-//        executeSQLFile("./sql/function.sql");
+        executeSQLFile("./sql/function.sql");
         executeSQLFile("./sql/procedure.sql");
+        executeSQLFile("./sql/trigger.sql");
     }
 
     private void executeSQLFile(String filePath) throws IOException {

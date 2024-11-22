@@ -40,8 +40,7 @@ END;
 $$;
 
 -- Procedure Save User
-CREATE
-OR REPLACE PROCEDURE create_user(
+CREATE OR REPLACE PROCEDURE create_user(
     var_password VARCHAR,
     var_username VARCHAR,
     var_address VARCHAR,
@@ -54,18 +53,28 @@ OR REPLACE PROCEDURE create_user(
 LANGUAGE plpgsql
 AS $$
 DECLARE
-    new_user_id  BIGINT; -- Biến để lưu ID user vừa thêm
-    invalid_role BIGINT; -- Biến để lưu role_id không hợp lệ
+    new_user_id  BIGINT;
+    invalid_role BIGINT;
 BEGIN
     -- Kiểm tra các role_id trong một lần truy vấn duy nhất
     SELECT r.id
     INTO invalid_role
     FROM UNNEST(var_roleIds) AS role_id
-             LEFT JOIN roles r ON r.id = role_id
+         LEFT JOIN roles r ON r.id = role_id
     WHERE r.id IS NULL LIMIT 1;
 
     IF invalid_role IS NOT NULL THEN
         RAISE EXCEPTION 'Role with id % does not exist', invalid_role;
+    END IF;
+
+    -- Kiểm tra số điện thoại đã tồn tại
+    IF EXISTS (SELECT 1 FROM users WHERE phone_number = var_phoneNumber) THEN
+        RAISE EXCEPTION 'Phone number % already exists', var_phoneNumber;
+    END IF;
+
+    -- Kiểm tra email đã tồn tại
+    IF EXISTS (SELECT 1 FROM users WHERE email = var_email) THEN
+        RAISE EXCEPTION 'Email % already exists', var_email;
     END IF;
 
     BEGIN

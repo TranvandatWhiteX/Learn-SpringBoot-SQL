@@ -26,6 +26,12 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getUser(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.getUserByIdProcedure(id));
+        return ResponseEntity.ok(userService.getUserByIdFunc(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return ResponseEntity.ok("User deleted successfully");
     }
 }

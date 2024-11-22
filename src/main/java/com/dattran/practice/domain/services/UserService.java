@@ -10,19 +10,12 @@ import com.dattran.practice.domain.repositories.UserRepository;
 import com.dattran.practice.domain.repositories.UserRoleRepository;
 import com.dattran.practice.domain.utils.FnCommon;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.ParameterMode;
-import jakarta.persistence.StoredProcedureQuery;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -35,8 +28,6 @@ public class UserService {
   UserRoleRepository userRoleRepository;
   RoleRepository roleRepository;
   ObjectMapper objectMapper;
-  EntityManager entityManager;
-  JdbcTemplate jdbcTemplate;
 
   public User createUser(UserDto userDto) {
     List<Role> roles = new ArrayList<>();
@@ -107,14 +98,18 @@ public class UserService {
 
   // Error: Calling Procedure Returning JSON Causing Exception
   // Not Found Solution
-  public Object getUserByIdProcedure(Long userId) {
-    StoredProcedureQuery query =
-        entityManager.createStoredProcedureQuery("get_user_with_roles_and_permissions_pro");
-    query.registerStoredProcedureParameter("p_user_id", Long.class, ParameterMode.IN);
-    query.registerStoredProcedureParameter("result", String.class, ParameterMode.OUT);
-    query.setParameter("p_user_id", userId);
-    query.execute();
-    Object result = query.getOutputParameterValue("result");
-    return result;
-  }
+//  public Object getUserByIdProcedure(Long userId) {
+//    StoredProcedureQuery query =
+//        entityManager.createStoredProcedureQuery("get_user_with_roles_and_permissions_pro");
+//    query.registerStoredProcedureParameter("p_user_id", Long.class, ParameterMode.IN);
+//    query.registerStoredProcedureParameter("result", String.class, ParameterMode.OUT);
+//    query.setParameter("p_user_id", userId);
+//    query.execute();
+//    Object result = query.getOutputParameterValue("result");
+//    return result;
+//  }
+
+    public void deleteUser(Long id) {
+      userRepository.deleteById(id);
+    }
 }
